@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Pet Finder</h1>
-    
-    <script src="script.js"></script>
-</body>
+
+    <!-- Importing the script like this was not working for me. Kept 
+         getting a 404 error because the file could not be found -->
+
+    <!-- <script src="script.js" type="module"></script> -->
+    <script>
+      fetch('/api/v1/pets')
+        .then((res) => res.json())
+        .then((data) => {
+          const container = document.createElement('div');
+          data.forEach((pet) => {
+            const petDiv = document.createElement('div');
+            petDiv.innerHTML = `<div id="pet-box" style="display: flex; flex-direction: row">
+                                <p style="margin-right: 5px;">Name: ${pet.name},</p>
+                                <p style="margin-right: 5px;">Breed: ${pet.breed},</p>
+                                <p>Owner: ${pet.owner}</p>
+                                </div>`;
+            document.querySelector('body').append(petDiv);
+          });
+        });
+    </script>
+  </body>
 </html>
